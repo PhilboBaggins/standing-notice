@@ -2,7 +2,7 @@ include <openscad-common/RoundedRect.scad>
 
 DEFAULT_WIDTH = 50;
 DEFAULT_HEIGHT = 80;
-DEFAULT_THICKNESS = 6; // https://www.ponoko.com/materials/poplar-plywood
+DEFAULT_THICKNESS = 6; // https://www.ponoko.com/materials/macrocarpa-hardwood
 DEFAULT_ANGLE = 10;
 DEFAULT_CORNER_RADIUS = 5;
 
