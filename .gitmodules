@@ -1,0 +1,3 @@
+[submodule "Basic shape/openscad-common"]
+	path = Basic shape/openscad-common
+	url = git@github.com:PhilboBaggins/openscad-common.git
