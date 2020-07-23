@@ -1,11 +1,13 @@
 MAIN_SRC_FILE := StandingNotice.scad
-EXPORT_DIR := exports
 
-SCAD_FILES := $(wildcard $(EXPORT_DIR)/*.scad)
-DXF_FILES := $(patsubst %.scad,%.dxf,$(SCAD_FILES))
-SVG_FILES := $(patsubst %.scad,%.svg,$(SCAD_FILES))
-PNG_FILES := $(patsubst %.scad,%.png,$(SCAD_FILES))
-ALL_EXPORTS := $(DXF_FILES) $(SVG_FILES) $(PNG_FILES)
+2D_SCAD_FILES := $(wildcard exports-2d/*.scad)
+2D_DXF_FILES := $(patsubst %.scad,%.dxf,$(2D_SCAD_FILES))
+2D_SVG_FILES := $(patsubst %.scad,%.svg,$(2D_SCAD_FILES))
+
+3D_SCAD_FILES := $(wildcard exports-3d/*.scad)
+3D_PNG_FILES := $(patsubst %.scad,%.png,$(3D_SCAD_FILES))
+
+ALL_EXPORTS := $(2D_DXF_FILES) $(2D_SVG_FILES) $(2D_PNG_FILES) $(3D_PNG_FILES)
 
 .PHONY: all clean
 
@@ -17,8 +19,8 @@ all: $(ALL_EXPORTS)
 %.svg: %.scad $(MAIN_SRC_FILE)
 	openscad -o $@ $<
 
-%.png: %.svg
-	magick convert $< $@
+%.png: %.scad $(MAIN_SRC_FILE)
+	openscad -o $@ $<
 
 clean:
 	rm -f $(ALL_EXPORTS)
