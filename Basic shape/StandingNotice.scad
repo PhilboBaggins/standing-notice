@@ -5,6 +5,7 @@ DEFAULT_HEIGHT = 80;
 DEFAULT_THICKNESS = 6; // https://www.ponoko.com/materials/macrocarpa-hardwood
 DEFAULT_ANGLE = 10;
 DEFAULT_CORNER_RADIUS = 5;
+DEFAULT_CLEARANCE = 0.25; // On each side
 
 function genStandWidth(width, height, thickness, angle) =
     width - thickness * 2; // TODO: Rethink this
@@ -15,7 +16,7 @@ function genStandHeight(width, height, thickness, angle) =
 function genStandOffset(width, height, thickness, angle) =
     height * 1 / 10; // TODO: Rethink this
 
-module StandingNoticeFace2D(width, height, thickness, angle, cornerRadius)
+module StandingNoticeFace2D(width, height, thickness, angle, cornerRadius, clearance)
 {
     standWidth = genStandWidth(width, height, thickness, angle);
     standOffset = genStandOffset(width, height, thickness, angle);
@@ -24,8 +25,10 @@ module StandingNoticeFace2D(width, height, thickness, angle, cornerRadius)
     {
         RoundedRect2D([width, height], cornerRadius);
 
-        translate([(width - standWidth) / 2, standOffset])
-        square([standWidth, thickness]);
+        translate([(width - standWidth) / 2 - clearance,
+                    standOffset - clearance])
+        square([standWidth + clearance * 2,
+                thickness + clearance * 2]);
     }
 }
 
@@ -43,7 +46,8 @@ module StandingNotice2D(
     height = DEFAULT_HEIGHT,
     thickness = DEFAULT_THICKNESS,
     angle = DEFAULT_ANGLE,
-    cornerRadius = DEFAULT_CORNER_RADIUS)
+    cornerRadius = DEFAULT_CORNER_RADIUS,
+    clearance = DEFAULT_CLEARANCE)
 {
     standWidth = genStandWidth(width, height, thickness, angle);
     standHeight = genStandHeight(width, height, thickness, angle);
@@ -51,7 +55,7 @@ module StandingNotice2D(
     translate([(width - standWidth) / 2, height + 1])
     StandingNoticeStand2D(standWidth, standHeight, thickness, angle, cornerRadius);
 
-    StandingNoticeFace2D(width, height, thickness, angle, cornerRadius);
+    StandingNoticeFace2D(width, height, thickness, angle, cornerRadius, clearance);
 }
 
 module StandingNotice3D(
@@ -59,7 +63,8 @@ module StandingNotice3D(
     height = DEFAULT_HEIGHT,
     thickness = DEFAULT_THICKNESS,
     angle = DEFAULT_ANGLE,
-    cornerRadius = DEFAULT_CORNER_RADIUS)
+    cornerRadius = DEFAULT_CORNER_RADIUS,
+    clearance = DEFAULT_CLEARANCE)
 {
     standWidth = genStandWidth(width, height, thickness, angle);
     standHeight = genStandHeight(width, height, thickness, angle);
@@ -74,7 +79,7 @@ module StandingNotice3D(
         StandingNoticeStand2D(standWidth, standHeight, thickness, angle, cornerRadius);
 
         linear_extrude(thickness)
-        StandingNoticeFace2D(width, height, thickness, angle, cornerRadius);
+        StandingNoticeFace2D(width, height, thickness, angle, cornerRadius, clearance);
     }
 }
 
